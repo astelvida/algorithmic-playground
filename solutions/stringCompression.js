@@ -1,4 +1,4 @@
-// Current problem here
+// Compress a string
 function stringCompression(str) {
 	let compressed = '';
 	let i = 0;
@@ -19,4 +19,5 @@ function stringCompression(str) {
 }
 
 
-console.log(stringCompression('abbccaa'));
+console.log(stringCompression('aaabbccaa'));
+// => 'a3b2c2a2
