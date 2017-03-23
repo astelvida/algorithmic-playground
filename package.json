@@ -1,0 +1,22 @@
+{
+  "name": "algorithmic-playground",
+  "version": "1.0.0",
+  "description": "A collection of algorithm problems and solutions.",
+  "main": "challenge.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astelvida/algorithmic-playground.git"
+  },
+  "author": "astelvida",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/astelvida/algorithmic-playground/issues"
+  },
+  "homepage": "https://github.com/astelvida/algorithmic-playground#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
