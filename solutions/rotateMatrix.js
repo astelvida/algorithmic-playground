@@ -1,4 +1,3 @@
-
 // Rotate a matrix by 90 degrees;
 function rotateMatrix(matrix) {
 
