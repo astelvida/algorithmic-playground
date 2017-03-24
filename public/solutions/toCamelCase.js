@@ -1,7 +1,5 @@
 function toCamelCase(str){
-
   var i = 0;
-
   var newStr = '';
 
   while(i !== str.length) {
@@ -17,6 +15,14 @@ function toCamelCase(str){
   return newStr;
 }
 
+
+// regex solution
+function toCamelCase(str){
+  var regExp=/[-_]\w/ig;
+  return str.replace(regExp,function(match){
+        return match.charAt(1).toUpperCase();
+   });
+}
 
 // returns "theStealthWarrior"
 console.log(toCamelCase("the-stealth-warrior"))
