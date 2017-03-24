@@ -6,11 +6,11 @@ const Matrix = function(rows = 0, columns = 0) {
   for(var i = 0; i < rows; i++) {
     matrix[i] = [];
     for(var j = 0; j < columns; j++) {
-      matrix[i][j] = 1;
+      matrix[i][j] = 0;
     }
   }
 
   return matrix;
 }
 
-// export default matrix;
+export default matrix;
