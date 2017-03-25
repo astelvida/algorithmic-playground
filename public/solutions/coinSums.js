@@ -1,11 +1,12 @@
-var coins = [1,2,5,10,20,50,100,200];
+// var coins = [1,2,5,10,20,50,100,200];
+
+var coins = [1,3,4]
 
 function coinSums (target) {
   var ways = initWays(target);
   ways[0] = 1;
   for(var i = 0; i < coins.length; i++) {
     for(var j = coins[i]; j < target; j++ ) {
-      debugger;
       ways[j] += ways[j - coins[i]];
     }
   }
