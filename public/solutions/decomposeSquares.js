@@ -4,12 +4,13 @@ function decompose(n) {
   var i = n-j;
   var result = [];
 
-  while(j !== 0) {
+  while(j !== n) {
     diff = input - i * i;
     if(diff === 0) {
       result.push(i);
       return result.reverse();
     } else if(diff < 0) {
+      console.log(diff, i)
       i--;
     } else if( diff > 0) {
       input = input - i * i;
@@ -25,7 +26,7 @@ function decompose(n) {
 }
 
 
-console.log(decompose(7))
+// console.log(decompose(7))
 //=> [2, 3, 6];
 console.log(decompose(123456));
 // => 1, 2, 7, 29, 496, 123455];
