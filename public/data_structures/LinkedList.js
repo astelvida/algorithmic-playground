@@ -27,8 +27,9 @@ class List {
     return currentHead;
   }
 
-  contains(target) {
-    this.head = node;
+  findNode(target) {
+    let node = this.head;
+
     while(node !== null) {
       if(node.value === target) {
         return node;
@@ -82,6 +83,30 @@ class List {
     }
   }
 
+  // If length is known, solution is trivial;
+  kthToLast(k) {
+    var index = 0;
+    var result = null;
+
+    var findNode = function (node) {
+      if(node === null) {
+        return 0;
+      }
+      index += findNode(node.next) + 1;
+
+      if(index === k) {
+        result = node;
+      }
+      return index;
+    }
+
+    // returns length
+    findNode(this.head);
+
+    // returns kth element
+    return result;
+  }
+
 }
 
 function Node (value=null) {
@@ -95,13 +120,10 @@ function Node (value=null) {
 // Tests
 var list = new List();
 list.appendToTail(1);
-list.appendToTail(7);
 list.appendToTail(5);
-list.appendToTail(7);
 list.appendToTail(13);
 list.appendToTail(7);
-list.appendToTail(7);
 
-list.removeDuplicates();
 
+console.log(list.kthToLast(2))
 console.log(list)
