@@ -124,6 +124,22 @@ class List {
     return p2;
   }
 
+  deleteMiddleNode() {
+
+    let fast = this.head;
+    let slow = this.head;
+    let prev = slow;
+
+    while(fast && fast.next !== null) {
+      prev = slow;
+      fast = fast.next.next;
+      slow = slow.next;
+    }
+    if(slow !== this.head && slow !== this.tail) {
+      prev.next = slow.next;
+    }
+  }
+
 }
 
 function Node (value=null) {
@@ -139,10 +155,10 @@ var list = new List();
 list.appendToTail(1);
 list.appendToTail(5);
 list.appendToTail(13);
-list.appendToTail(2);
-list.appendToTail(9);
-list.appendToTail(7);
+// list.appendToTail(2);
+// list.appendToTail(9);
+// list.appendToTail(7);
 
+list.deleteMiddleNode()
 
-console.log(list.kthToLast(2))
 console.log(list)
