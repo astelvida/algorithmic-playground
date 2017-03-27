@@ -4,7 +4,6 @@ function rotateMatrix(matrix) {
 	// create an empty matrix of same length
 	let length = matrix.length - 1;
 	const result = matrix.map((row) => row.map((item) => 0));
-
 	// transpose the matrix
 	for(var i = 0; i < matrix.length; i++) {
 		for(var j = 0; j < matrix.length; j++) {
