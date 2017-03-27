@@ -19,7 +19,7 @@ class List {
   }
 
   removeHead() {
-    if (list.head === null) {
+    if (this.head === null) {
       return null;
     }
     let currentHead = this.head;
@@ -31,7 +31,7 @@ class List {
     this.head = node;
     while(node !== null) {
       if(node.value === target) {
-        return true;
+        return node;
       }
       node = node.next;
     }
@@ -49,11 +49,34 @@ class List {
       if(node.next.value === target) {
         var deleted = node.next;
         node.next = node.next.next;
-        // update tail if deeleting the last node;
+        // update tail if deleting the last node;
         if(deleted === this.tail) {
           this.tail = node;
         }
         return deleted;
+      }
+      node = node.next;
+    }
+    // if there is no such node return false;
+    return false;
+  }
+
+
+  removeDuplicates() {
+    // use an object for fast lookup
+    let lookup = {};
+    let node = this.head;
+    let prev;
+
+    while(node !== null) {
+      if(!(node.value in lookup)) {
+        lookup[node.value] = true;
+        prev = node;
+      } else {
+        prev.next = node.next;
+        if (node === this.tail) {
+          this.tail = prev;
+        }
       }
       node = node.next;
     }
@@ -72,10 +95,13 @@ function Node (value=null) {
 // Tests
 var list = new List();
 list.appendToTail(1);
+list.appendToTail(7);
 list.appendToTail(5);
+list.appendToTail(7);
 list.appendToTail(13);
 list.appendToTail(7);
+list.appendToTail(7);
 
-list.deleteNode(7);
+list.removeDuplicates();
 
 console.log(list)
