@@ -183,16 +183,13 @@ list.appendToTail(10);
 list.appendToTail(2);
 list.appendToTail(1);
 
-// list.printList();
+
 function partition(list, n) {
   var node = list.head;
-  console.log('node', node)
   var front = new List();
   var end = new List();
-  var nextEnd;
-  var nextFront;
-  while(node !== null) {
 
+  while(node !== null) {
     if(node.value >= 5) {
       end.appendToTail(node.value);
     } else {
@@ -200,7 +197,6 @@ function partition(list, n) {
     }
     node = node.next;
   }
-
   // join front and end;
   front.tail.next = end.head;
   front.tail = end.tail;
@@ -208,6 +204,6 @@ function partition(list, n) {
   return front;
 }
 
-console.log('RESULT',partition(list, 5))
+// console.log('RESULT',partition(list, 5))
 
 // console.log(list)
