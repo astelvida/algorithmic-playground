@@ -16,6 +16,7 @@ class List {
       this.tail.next = node;
     }
     this.tail = node;
+    return node;
   }
 
   removeHead() {
@@ -140,6 +141,29 @@ class List {
     }
   }
 
+  // no access to head - just copy the next node into the current node!
+  deleteNodeNoHeadAccess(node) {
+    if(!node || !node.next) {
+      return false;
+    }
+    console.log(node);
+    let next = node.next;
+    node.value = next.value;
+    node.next = next.next;
+  }
+
+  printList() {
+    var arr = [];
+    let node = this.head;
+    while(node !== null) {
+      arr.push(node.value);
+      node = node.next;
+    }
+    console.log(arr)
+    return arr;
+  }
+
+
 }
 
 function Node (value=null) {
@@ -149,16 +173,41 @@ function Node (value=null) {
   return node;
 }
 
-
 // Tests
 var list = new List();
-list.appendToTail(1);
+list.appendToTail(3);
 list.appendToTail(5);
-list.appendToTail(13);
-// list.appendToTail(2);
-// list.appendToTail(9);
-// list.appendToTail(7);
+list.appendToTail(8);
+list.appendToTail(5);
+list.appendToTail(10);
+list.appendToTail(2);
+list.appendToTail(1);
 
-list.deleteMiddleNode()
+// list.printList();
+function partition(list, n) {
+  var node = list.head;
+  console.log('node', node)
+  var front = new List();
+  var end = new List();
+  var nextEnd;
+  var nextFront;
+  while(node !== null) {
 
-console.log(list)
+    if(node.value >= 5) {
+      end.appendToTail(node.value);
+    } else {
+      front.appendToTail(node.value);
+    }
+    node = node.next;
+  }
+
+  // join front and end;
+  front.tail.next = end.head;
+  front.tail = end.tail;
+
+  return front;
+}
+
+console.log('RESULT',partition(list, 5))
+
+// console.log(list)
