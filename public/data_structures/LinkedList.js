@@ -84,7 +84,7 @@ class List {
   }
 
   // If length is known, solution is trivial;
-  kthToLast(k) {
+  kthToLastRecursive(k) {
     var index = 0;
     var result = null;
 
@@ -99,12 +99,29 @@ class List {
       }
       return index;
     }
-
     // returns length
     findNode(this.head);
-
     // returns kth element
     return result;
+  }
+
+  // O(1) space complexity
+  kthToLast(k) {
+    let p1 = this.head;
+    let p2 = this.head;
+    let node = this.head;
+
+    // move p1 k positions
+    for (var i = 0; i < k; i++) {
+      p1 = p1.next;
+    }
+    // p2 starts at 0, and p1 at k so when p1 hits null, p2 will have moved [length - k] positions
+    // i.e kth to last...
+    while(p1 !== null) {
+      p1 = p1.next;
+      p2 = p2.next;
+    }
+    return p2;
   }
 
 }
@@ -122,6 +139,8 @@ var list = new List();
 list.appendToTail(1);
 list.appendToTail(5);
 list.appendToTail(13);
+list.appendToTail(2);
+list.appendToTail(9);
 list.appendToTail(7);
 
 
