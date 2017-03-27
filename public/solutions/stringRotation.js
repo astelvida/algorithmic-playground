@@ -17,7 +17,6 @@ function stringRotation(str1, str2) {
   return false;
 }
 
-
 // Helper method to check if one String (str) is a substring of the other(target)
 function isSubstring(target, str) {
   for(var i = 0; i < target.length; i++) {
