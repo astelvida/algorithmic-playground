@@ -1,14 +1,15 @@
-function Stack() {
+const Stack = function () {
   const obj = {};
   const storage = {};
   let size = 0;
 
-  obj.push = (item) => {
-    storage[size++] = item;
-  };
+  obj.push = (item) => storage[size++] = item;
 
   obj.pop = () => {
-    size && size--;
+    if (obj.isEmpty()) {
+      return null;
+    }
+    size--;
     const popped = storage[size];
     delete storage[size];
     return popped;
@@ -21,17 +22,17 @@ function Stack() {
   obj.isEmpty = () => !obj.size();
 
   return obj;
-}
+};
 
-// const stack = Stack();
+// var myStack = Stack();
 //
-// stack.push(2);
-// stack.push(1);
-// stack.push(-25);
-// stack.push(3);
-// stack.pop();
-// stack.push(100);
-// stack.pop();
+// myStack.push(2);
+// myStack.push(1);
+// myStack.push(-25);
+// myStack.push(3);
+// myStack.pop();
+// myStack.push(100);
+// myStack.pop();
 
 // POP size && size--;
 /*

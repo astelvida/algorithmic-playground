@@ -1,11 +1,12 @@
 /*
   3.2. Implement a min method on Stack data structure
+  TODO: Implement this method using another stackMin
 */
 
 function StackMin() {
   const obj = {};
   const storage = {};
-  const min_storage = {};
+  const minStorage = {};
   let min = Number.MAX_SAFE_INTEGER;
   let size = 0;
 
@@ -14,7 +15,7 @@ function StackMin() {
     if (item < min) {
       min = item;
     }
-    min_storage[size] = min;
+    minStorage[size] = min;
     size++;
   };
 
@@ -22,7 +23,7 @@ function StackMin() {
     size && size--;
     const popped = storage[size];
     delete storage[size];
-    delete min_storage[size];
+    delete minStorage[size];
     return popped;
   };
 
@@ -30,27 +31,19 @@ function StackMin() {
 
   obj.isEmpty = () => !obj.size();
 
-  obj.min = () => min_storage[size-1];
+  obj.min = () => minStorage[size-1];
 
   return obj;
 }
 
-// const stack = StackMin();
+
+// const stackMin = StackMin();
 //
-// stack.push(2);
-// stack.push(1);
-// stack.push(-25);
-// stack.push(3);
-// stack.pop();
-// stack.push(100);
-// stack.pop();
-// stack.push(15);
-// stack.pop();
-// stack.push(7)
-// stack.push(203);
-// stack.pop();
-// stack.push(-100)
-// stack.pop();
-//
-// console.log('min:',stack.min());
-// console.log('size:', stack.size());
+// stackMin.push(2);
+// stackMin.push(1);
+// stackMin.push(-25);
+// stackMin.push(3);
+// stackMin.pop();
+
+// console.log('min:',stackMin.min());
+// console.log('size:', stackMin.size());

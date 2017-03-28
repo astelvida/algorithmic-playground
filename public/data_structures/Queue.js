@@ -31,13 +31,13 @@ Queue.prototype.peek = function isEmpty() {
 };
 
 
-const queue = new Queue();
-queue.enqueue(5);
-queue.enqueue(6);
-queue.enqueue(7);
-queue.dequeue();
-queue.dequeue();
-queue.enqueue(1);
-queue.dequeue();
-queue.enqueue(100);
-queue.dequeue();
+// const newQueue = new Queue();
+// newQueue.enqueue(5);
+// newQueue.enqueue(6);
+// newQueue.enqueue(7);
+// newQueue.dequeue();
+// newQueue.dequeue();
+// newQueue.enqueue(1);
+// newQueue.dequeue();
+// newQueue.enqueue(100);
+// newQueue.dequeue();
