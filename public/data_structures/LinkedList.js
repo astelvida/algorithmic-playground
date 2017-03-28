@@ -6,8 +6,9 @@ class List {
     this.tail = null;
   }
 
-  appendToTail(val) {
-    let node = new Node(val);
+  // can receive either a primitive or a node;
+  appendToTail(value) {
+    let node = new Node(value);
     if (!this.head) {
       this.head = node;
     }
@@ -125,18 +126,29 @@ class List {
     return p2;
   }
 
+  startToKth(k) {
+    let node = this.head;
+
+    while (k !== 0) {
+
+      node = node.next;
+      k--;
+    }
+    return node;
+  }
+
   deleteMiddleNode() {
 
     let fast = this.head;
     let slow = this.head;
     let prev = slow;
 
-    while(fast && fast.next !== null) {
+    while (fast && fast.next !== null) {
       prev = slow;
       fast = fast.next.next;
       slow = slow.next;
     }
-    if(slow !== this.head && slow !== this.tail) {
+    if (slow !== this.head && slow !== this.tail) {
       prev.next = slow.next;
     }
   }
@@ -152,7 +164,7 @@ class List {
     node.next = next.next;
   }
 
-  printList() {
+  print() {
     var arr = [];
     let node = this.head;
     while(node !== null) {
@@ -161,6 +173,16 @@ class List {
     }
     console.log(arr)
     return arr;
+  }
+
+  length() {
+    let node = this.head;
+    let len = 0;
+    while(node !== null) {
+      len++;
+      node = node.next;
+    }
+    return len;
   }
 
 
