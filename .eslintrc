@@ -9,7 +9,7 @@
   },
   "rules": {
     // core eslint rules
-    "max-len": [1, 100, 2, {ignoreComments: true}],
+    "max-len": [1, 80, 2, {ignoreComments: true}],
     "space-infix-ops": 0,
     "no-unused-vars": [1, {"vars": "local", "args": "none"}],
     "no-use-before-define": [0, { "functions": "true", "classes": "true" }],
@@ -29,7 +29,7 @@
     "no-case-declarations": [0],
 
     // Rules for algos
-    "no-plusplus": [0], 
+    "no-plusplus": [0],
 
     // import eslint rules
      "import/prefer-default-export": [0],
