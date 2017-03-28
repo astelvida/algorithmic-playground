@@ -8,16 +8,13 @@ function Stack() {
   };
 
   obj.pop = () => {
-    /*
-      expression on the right will only execute only if the left evalutes
-      to true. So if size === 0, i.e. false size will not be decreased and
-      result will be undefined;
-    */
     size && size--;
     const popped = storage[size];
     delete storage[size];
     return popped;
   };
+
+  obj.peek = () => storage[obj.size() - 1];
 
   obj.size = () => size;
 
@@ -25,3 +22,20 @@ function Stack() {
 
   return obj;
 }
+
+// const stack = Stack();
+//
+// stack.push(2);
+// stack.push(1);
+// stack.push(-25);
+// stack.push(3);
+// stack.pop();
+// stack.push(100);
+// stack.pop();
+
+// POP size && size--;
+/*
+  expression on the right will only execute only if the left evalutes
+  to true. So if size === 0, i.e. false size will not be decreased and
+  result will be undefined;
+*/

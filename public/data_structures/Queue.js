@@ -26,11 +26,18 @@ Queue.prototype.isEmpty = function isEmpty() {
   return !this.size();
 };
 
+Queue.prototype.peek = function isEmpty() {
+  return this.isEmpty()? null: this.storage[this.start];
+};
+
+
 const queue = new Queue();
 queue.enqueue(5);
 queue.enqueue(6);
 queue.enqueue(7);
 queue.dequeue();
 queue.dequeue();
-queue.enqueue(8);
-queue.enqueue();
+queue.enqueue(1);
+queue.dequeue();
+queue.enqueue(100);
+queue.dequeue();

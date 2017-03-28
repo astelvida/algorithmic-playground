@@ -35,22 +35,22 @@ function StackMin() {
   return obj;
 }
 
-const stack = StackMin();
-
-stack.push(2);
-stack.push(1);
-stack.push(-25);
-stack.push(3);
-stack.pop();
-stack.push(100);
-stack.pop();
-stack.push(15);
-stack.pop();
-stack.push(7)
-stack.push(203);
-stack.pop();
-stack.push(-100)
-stack.pop();
-
-console.log('min:',stack.min());
-console.log('size:', stack.size());
+// const stack = StackMin();
+//
+// stack.push(2);
+// stack.push(1);
+// stack.push(-25);
+// stack.push(3);
+// stack.pop();
+// stack.push(100);
+// stack.pop();
+// stack.push(15);
+// stack.pop();
+// stack.push(7)
+// stack.push(203);
+// stack.pop();
+// stack.push(-100)
+// stack.pop();
+//
+// console.log('min:',stack.min());
+// console.log('size:', stack.size());
