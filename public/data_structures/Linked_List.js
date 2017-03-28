@@ -1,6 +1,4 @@
-
 class List {
-
   constructor() {
     this.head = null;
     this.tail = null;
@@ -8,23 +6,21 @@ class List {
 
   // can receive either a primitive or a node;
   appendToTail(value) {
-    let node = new Node(value);
+    const node = new Node(value);
     if (!this.head) {
       this.head = node;
     }
-
     if (this.tail) {
       this.tail.next = node;
     }
     this.tail = node;
-    return node;
   }
 
   removeHead() {
     if (this.head === null) {
       return null;
     }
-    let currentHead = this.head;
+    const currentHead = this.head;
     this.head = currentHead.next;
     return currentHead;
   }
@@ -32,8 +28,8 @@ class List {
   findNode(target) {
     let node = this.head;
 
-    while(node !== null) {
-      if(node.value === target) {
+    while (node !== null) {
+      if (node.value === target) {
         return node;
       }
       node = node.next;
@@ -44,16 +40,16 @@ class List {
   deleteNode(target) {
     let node = this.head;
 
-    if(node && node.value === target) {
+    if (node && node.value === target) {
       return this.removeHead();
     }
 
-    while(node.next !== null) {
-      if(node.next.value === target) {
-        var deleted = node.next;
+    while (node.next !== null) {
+      if (node.next.value === target) {
+        const deleted = node.next;
         node.next = node.next.next;
         // update tail if deleting the last node;
-        if(deleted === this.tail) {
+        if (deleted === this.tail) {
           this.tail = node;
         }
         return deleted;
@@ -67,12 +63,12 @@ class List {
 
   removeDuplicates() {
     // use an object for fast lookup
-    let lookup = {};
+    const lookup = {};
     let node = this.head;
     let prev;
 
-    while(node !== null) {
-      if(!(node.value in lookup)) {
+    while (node !== null) {
+      if (!(node.value in lookup)) {
         lookup[node.value] = true;
         prev = node;
       } else {
@@ -87,20 +83,20 @@ class List {
 
   // If length is known, solution is trivial;
   kthToLastRecursive(k) {
-    var index = 0;
-    var result = null;
+    let index = 0;
+    let result = null;
 
-    var findNode = function (node) {
-      if(node === null) {
+    const findNode = (node) => {
+      if (node === null) {
         return 0;
       }
       index += findNode(node.next) + 1;
 
-      if(index === k) {
+      if (index === k) {
         result = node;
       }
       return index;
-    }
+    };
     // returns length
     findNode(this.head);
     // returns kth element
@@ -111,15 +107,14 @@ class List {
   kthToLast(k) {
     let p1 = this.head;
     let p2 = this.head;
-    let node = this.head;
 
     // move p1 k positions
-    for (var i = 0; i < k; i++) {
+    for (let i = 0; i < k; i++) {
       p1 = p1.next;
     }
     // p2 starts at 0, and p1 at k so when p1 hits null, p2 will have moved [length - k] positions
     // i.e kth to last...
-    while(p1 !== null) {
+    while (p1 !== null) {
       p1 = p1.next;
       p2 = p2.next;
     }
@@ -128,11 +123,10 @@ class List {
 
   startToKth(k) {
     let node = this.head;
-
-    while (k !== 0) {
-
+    let c = k;
+    while (c !== 0) {
       node = node.next;
-      k--;
+      c--;
     }
     return node;
   }
@@ -154,31 +148,22 @@ class List {
   }
 
   // no access to head - just copy the next node into the current node!
-  deleteNodeNoHeadAccess(node) {
-    if(!node || !node.next) {
-      return false;
-    }
-    console.log(node);
-    let next = node.next;
-    node.value = next.value;
-    node.next = next.next;
-  }
 
   print() {
-    var arr = [];
+    const arr = [];
     let node = this.head;
-    while(node !== null) {
+    while (node !== null) {
       arr.push(node.value);
       node = node.next;
     }
-    console.log(arr)
+    console.log(arr);
     return arr;
   }
 
   length() {
     let node = this.head;
     let len = 0;
-    while(node !== null) {
+    while (node !== null) {
       len++;
       node = node.next;
     }
@@ -188,19 +173,19 @@ class List {
 
 }
 
-function Node (value=null) {
-  let node = {};
-  node.value = value
+function Node(value=null) {
+  const node = {};
+  node.value = value;
   node.next = null;
   return node;
 }
 
 // Tests
-var list = new List();
-list.appendToTail(3);
-list.appendToTail(5);
-list.appendToTail(8);
-list.appendToTail(5);
-list.appendToTail(10);
-list.appendToTail(2);
-list.appendToTail(1);
+// let list = new List();
+// list.appendToTail(3);
+// list.appendToTail(5);
+// list.appendToTail(8);
+// list.appendToTail(5);
+// list.appendToTail(10);
+// list.appendToTail(2);
+// list.appendToTail(1);
