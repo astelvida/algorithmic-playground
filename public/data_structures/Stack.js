@@ -20,7 +20,7 @@ const Stack = function () {
   obj.size = () => size;
 
   obj.isEmpty = () => !obj.size();
-
+  console.log('storage', storage)
   return obj;
 };
 
