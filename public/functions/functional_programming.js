@@ -191,10 +191,113 @@ function limit(f, lim) {
       c++;
       return f(...args);
     }
-    return undefined;
+    return null;
   };
 }
 
 const limit1 = limit(add, 1);
 log(limit1(3, 4), 'limit', 7);
-log(limit1(3, 5), 'limit', 'undefined as limit is 1');
+log(limit1(3, 5), 'limit', 'null as limit is 1');
+
+
+/*
+  *** FROM ***
+  Write a function from, that produces a generator that will produces
+  a series of values.
+*/
+
+function from(seed) {
+  return function () {
+    return seed++;
+  };
+}
+// since index is defined = from(0), the inner function will close // over the seed variable, so whenever wwe call index, it will not
+// be reinitialised.
+const indexA = from(0);
+log(indexA(), 'from', 0);
+log(indexA(), 'from', 1);
+log(indexA(), 'from', 2);
+
+
+/*
+  *** TO ***
+  Write a function to, that takes a generator and an end value and
+  returns a generator that produces number up to that limit(end).
+*/
+
+function to(generator, end) {
+  return function () {
+    const value = generator();
+    if (value < end) {
+      return value;
+    }
+    return null;
+  };
+}
+
+const indexB = to(from(1), 3);
+log(indexB(), 'to', 1);
+log(indexB(), 'to', 2);
+log(indexB(), 'to', 'null, as limit is 3');
+
+
+/*
+  *** FROM TO ***
+  Write a function fromTo, that produces a generator which will
+  produce values in a range (including start and excluding end).
+*/
+
+// Without using other functions
+function fromTo0(start, end) {
+  return function () {
+    if (start !== end) {
+      return start++;
+    }
+    return null;
+  };
+}
+
+// Using 'from' and 'to' function declared above
+function fromTo(start, end) {
+  return to(from(start), end);
+}
+
+const indexC = fromTo(9, 12);
+log(indexC(), 'fromTo', 9);
+log(indexC(), 'fromTo', 10);
+log(indexC(), 'fromTo', 11);
+log(indexC(), 'fromTo', 'null, as range is 3');
+
+
+/*
+  *** ELEMENT GEN ***
+  Write a function element, that takes an array and a generator and
+  returns a generator that will produce elements from that array.
+  If a generator is not provided, then produce all elements.
+*/
+
+// Without using other functions
+function element(arr, gen) {
+  if (!gen) {
+    gen = fromTo(0, arr.length);
+  }
+  return function () {
+    const index = gen();
+    if (index !== null) {
+      return arr[index];
+    }
+    return null;
+  };
+}
+
+
+const ele = element(['a', 'b', 'c', 'd'], fromTo(1, 3));
+log(ele(), 'element', 'b');
+log(ele(), 'element', 'c');
+log(ele(), 'element', 'null, as range is 1-3');
+const ele2 = element(['a', 'b', 'c', 'd']);
+log(ele2(), 'element no gen', 'a');
+log(ele2(), 'element no gen', 'b');
+log(ele2(), 'element no gen', 'c');
+log(ele2(), 'element no gen', 'd');
+log(ele2(), 'element no gen', 'null, since the entire array has been printed');
