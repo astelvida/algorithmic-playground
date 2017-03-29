@@ -1,15 +1,4 @@
 /*
-  Write a function
-*/
-
-function funcName() {
-
-}
-// log(funcName(), 'funcName');    // 7
-
-
-
-/*
   A Logger function
 */
 function log(arg, name = 'nameleless', message='???') {
@@ -121,19 +110,91 @@ log(inc3(inc3(5)), 'inc3 + inc3 + 5', 7);
   unary function that passes its argument to the binary function twice.
 */
 
-function twice(func) {
+function twiceCurry(func) {
   return function (arg1) {
     return curry(func, arg1)(arg1);
   };
 }
+
+function twice(binary) {
+  return function (arg1) {
+    return binary(arg1, arg1);
+  };
+}
+
 
 const doubl = twice(add);
 log(doubl(11), 'twice double', '22');
 const square = twice(mul);
 log(square(11), 'twice square', '121');
 
+
 /*
-  *** CURRY ***
-  Write a function curry that takes a binary function and an
-  argument, and returns a function that can take a second argument.
+  *** REVERSE ***
+  Write a function reverse, that reverses the arguments of a binary/any function.
 */
+
+function reverseBinary(binary) {
+  return function (arg1, arg2) {
+    return binary(arg2, arg1);
+  };
+}
+
+function reverse(func) {
+  return function (...args) {
+    return func(...args.reverse());
+  };
+}
+
+const bus = reverse(sub);
+log(bus(3, 2), 'reverse', -1);
+
+/*
+  *** COMPOSE UNARY ***
+  Write a function composeUnary, that takes two unary functions and
+  returns a unary function that calls them both.
+*/
+
+function composeUnary(unary1, unary2) {
+  return function (arg1) {
+    return unary2(unary1(arg1));
+  };
+}
+
+log(composeUnary(doubl, square)(5), 'composeUnary', 100);
+
+
+/*
+  *** COMPOSE BINARY ***
+  Write a function composeBinary, that takes two binary functions and
+  returns a function that calls them both.
+*/
+
+function composeBinary(f, g) {
+  return function (...args) {
+    return g(f(args[1], args[0]), args[2]);
+  };
+}
+
+log(composeBinary(add, mul)(2, 3, 7), 'composeBinary', 35);
+
+/*
+  *** LIMIT ***
+  Write a function limit, that allows a binary function to be called
+  a limited number of times.
+*/
+
+function limit(f, lim) {
+  let c = 0;
+  return function (...args) {
+    if (c < lim) {
+      c++;
+      return f(...args);
+    }
+    return undefined;
+  };
+}
+
+const limit1 = limit(add, 1);
+log(limit1(3, 4), 'limit', 7);
+log(limit1(3, 5), 'limit', 'undefined as limit is 1');
