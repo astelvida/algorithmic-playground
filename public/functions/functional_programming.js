@@ -2,6 +2,10 @@
   A Logger function
 */
 function log(arg, name = 'nameleless', message='???') {
+  if (arg === 'br') {
+    document.write('</br>');
+    return;
+  }
   document.write('<p><strong>');
   document.writeln(name);
   document.write('</strong>');
@@ -191,13 +195,13 @@ function limit(f, lim) {
       c++;
       return f(...args);
     }
-    return null;
+    return undefined;
   };
 }
 
 const limit1 = limit(add, 1);
 log(limit1(3, 4), 'limit', 7);
-log(limit1(3, 5), 'limit', 'null as limit is 1');
+log(limit1(3, 5), 'limit', 'undefined as limit is 1');
 
 
 /*
@@ -231,14 +235,14 @@ function to(generator, end) {
     if (value < end) {
       return value;
     }
-    return null;
+    return undefined;
   };
 }
 
 const indexB = to(from(1), 3);
 log(indexB(), 'to', 1);
 log(indexB(), 'to', 2);
-log(indexB(), 'to', 'null, as limit is 3');
+log(indexB(), 'to', 'undefined, as limit is 3');
 
 
 /*
@@ -253,7 +257,7 @@ function fromTo0(start, end) {
     if (start !== end) {
       return start++;
     }
-    return null;
+    return undefined;
   };
 }
 
@@ -266,7 +270,7 @@ const indexC = fromTo(9, 12);
 log(indexC(), 'fromTo', 9);
 log(indexC(), 'fromTo', 10);
 log(indexC(), 'fromTo', 11);
-log(indexC(), 'fromTo', 'null, as range is 3');
+log(indexC(), 'fromTo', 'undefined, as range is 3');
 
 
 /*
@@ -283,10 +287,10 @@ function element(arr, gen) {
   }
   return function () {
     const index = gen();
-    if (index !== null) {
+    if (index !== undefined) {
       return arr[index];
     }
-    return null;
+    return undefined;
   };
 }
 
@@ -294,10 +298,133 @@ function element(arr, gen) {
 const ele = element(['a', 'b', 'c', 'd'], fromTo(1, 3));
 log(ele(), 'element', 'b');
 log(ele(), 'element', 'c');
-log(ele(), 'element', 'null, as range is 1-3');
+log(ele(), 'element', 'undefined, as range is 1-3');
 const ele2 = element(['a', 'b', 'c', 'd']);
 log(ele2(), 'element no gen', 'a');
 log(ele2(), 'element no gen', 'b');
 log(ele2(), 'element no gen', 'c');
 log(ele2(), 'element no gen', 'd');
-log(ele2(), 'element no gen', 'null, since the entire array has been printed');
+log(ele2(), 'element no gen',
+'undefined, since the entire array has been printed');
+log('br');
+
+
+/*
+  *** COLLECT ***
+  Collect takes a generator and an array and produces a function
+  that will collect the results in the array.
+*/
+
+function collect(gen, arr) {
+  return function () {
+    const value = gen();
+    if (value !== undefined) {
+      arr.push(value);
+    }
+    return value;
+  };
+}
+
+
+const array = [];
+const collectToArray = collect(fromTo(0, 2), array);
+log(collectToArray(), 'collect', '0');
+log(collectToArray(), 'collect', '1');
+log(collectToArray(), 'collect', 'undefined');
+log(array, 'array', '[0, 1]');
+
+/*
+  *** FILTER ***
+  Write a filter function that takes a generator and a predicate and
+  produces a generator that produces only the values approved by the
+  predicate.
+*/
+const logger = console.log;
+
+function filter(gen, pred) {
+  return function checkPred() {
+    const value = gen();
+    if (pred(value) || value === undefined) {
+      return value;
+    }
+    return checkPred();
+  };
+}
+
+const fil = filter(fromTo(0, 5),
+  function third(value) {
+    return (value % 3) === 0;
+  });
+
+// logger(fil());    // 0
+// logger(fil());    // 3
+// logger(fil());    // undefined
+
+/*
+  *** CONCAT ***
+  Write a concat function that takes two generators and produces a
+  generator that combines the sequences
+  // TODO: write the function for any number of generators
+*/
+
+function concat(gen1, gen2) {
+  return function () {
+    const value1 = gen1();
+    if (value1 !== undefined) {
+      return value1;
+    }
+    return gen2();
+  };
+}
+
+// const con = concat(fromTo(0, 3), fromTo(0, 2));
+// logger(con());    // 0
+// logger(con());    // 1
+// logger(con());    // 2
+// logger(con());    // 0
+// logger(con());    // 1
+// logger(con());    // undefined
+
+
+/*
+  *** REPEAT ***
+  Write a repeat function that takes a generator and calls it until
+  it returns undefined.
+*/
+
+function repeat() {
+
+}
+
+// const array2 = [];
+// repeat(collect(fromTo(0, 4), array2));
+// logger(array2);    // 0, 1, 2, 3
+
+
+/*
+  *** MAP ***
+  Write a map function that takes an array and a unary function, and
+  returns an array containing the result of passing each element to
+  the unary function. Use the repeat function.
+*/
+
+function map() {
+
+}
+
+// logger(map([2, 1, 0], inc1)); // [3, 2, 1]
+
+
+/*
+  *** REDUCE ***
+  Write a reduce function that takes an array and a binary function,
+  and returns a single value.Use the repeat function.
+*/
+
+function reduce() {
+
+}
+
+// logger(reduce([], add));           // undefined
+// logger(reduce([2], add));          // 2
+// logger(reduce([2, 1, 0], add));    // 3

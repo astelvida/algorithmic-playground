@@ -34,6 +34,7 @@ const MyQueue = (function queue2() {
     isEmpty,
     peek,
   });
+
 }());
 
 
