@@ -30,6 +30,7 @@
 
     // Rules for algos
     "no-plusplus": [0],
+    "func-names": [0],
 
     // import eslint rules
      "import/prefer-default-export": [0],
