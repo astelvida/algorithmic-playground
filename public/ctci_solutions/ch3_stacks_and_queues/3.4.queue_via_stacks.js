@@ -3,15 +3,14 @@
 */
 
 const MyQueue = (function queue2() {
-  const instance = {};
   const back = Stack();
   const front = Stack();
 
-  instance.enqueue = (item) => {
+  const enqueue = (item) => {
     return front.isEmpty()? front.push(item) : back.push(item);
   };
 
-  instance.dequeue = () => {
+  const dequeue = () => {
     const deleted = front.pop();
     if (front.isEmpty()) {
       while (!back.isEmpty()) {
@@ -21,19 +20,26 @@ const MyQueue = (function queue2() {
     return deleted;
   };
 
-  instance.size = () => front.size() + back.size();
+  const size = () => front.size() + back.size();
 
-  instance.isEmpty = () => front.isEmpty() && back.isEmpty();
+  const isEmpty = () => front.isEmpty() && back.isEmpty();
 
-  instance.peek = () => front.peek();
+  const peek = () => front.peek();
 
-  return instance;
+  return Object.freeze({
+    enqueue,
+    add: enqueue,
+    dequeue,
+    size,
+    isEmpty,
+    peek,
+  });
 }());
 
 
 // CONSOLE TESTS
 
-const myQueue = MyQueue;
+// const myQueue = MyQueue;
 
 // myQueue.enqueue(4);
 // myQueue.enqueue(5);
