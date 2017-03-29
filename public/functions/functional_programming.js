@@ -1,3 +1,4 @@
+
 /*
   A Logger function
 */
@@ -368,6 +369,7 @@ const fil = filter(fromTo(0, 5),
 */
 
 function concat(gen1, gen2) {
+  console.log('this CONCAT', this)
   return function () {
     const value1 = gen1();
     if (value1 !== undefined) {
@@ -428,3 +430,245 @@ function reduce() {
 // logger(reduce([], add));           // undefined
 // logger(reduce([2], add));          // 2
 // logger(reduce([2, 1, 0], add));    // 3
+
+
+/*
+  *** GENSYMF ***
+  Make a function gensymf that makes a function that generates
+  unique symbols.
+// */
+//
+function gensymf(sym) {
+  const index = from(1);
+  return function () {
+    return sym + index();
+  };
+}
+//
+// const geng = gensymf('G');
+// const genh = gensymf('H');
+// logger(geng());      // 'G1'
+// logger(genh());      // 'H1'
+// logger(geng());      // 'G2'
+// logger(genh());      // 'H2'
+
+/*
+  *** GENSYMFF ***
+  Write a function gensymff that takes a unary function and a seed
+  and returns a gensymf.
+*/
+
+function gensymff(func, seed) {
+  const index = func(0);
+  return function (arg1) {
+    return gensymf(arg1);
+  };
+}
+
+// const gensymf2 = gensymff(inc3, 0);
+// const geng2 = gensymf2('G');
+// const genh2 = gensymf2('H');
+// logger(geng2());      // 'G1'
+// logger(genh2());      // 'H1'
+// logger(geng2());      // 'G2'
+// logger(genh2());      // 'H2'
+
+/*
+  *** FIBONACCIF ***
+  Make a function fibonaccif that returns a generator that will
+  return the next fibonacci number.
+*/
+
+function fibonaccif(seed1, seed2) {
+  let c = 0;
+  return function () {
+    if (c === 0) {
+      c++;
+      return seed1;
+    }
+    const result = seed1 + seed2;
+    const temp = seed1;
+    seed1 = result;
+    seed2 = temp;
+    return result;
+  };
+}
+
+// const fib = fibonaccif(0, 1);
+// logger(fib());    // 0
+// logger(fib());    // 1
+// logger(fib());    // 1
+// logger(fib());    // 2
+// logger(fib());    // 3
+// logger(fib());    // 5
+
+
+/*
+  *** COUNTER ***
+  Write a counter function that returns an object containing two
+  functions that implement an up/down counter, hiding the counter.
+*/
+
+function counter(value) {
+  return {
+    up: function () {
+      value = value + 1;
+      return value;
+    },
+    down: function () {
+      value = value - 1;
+      return value;
+    }
+  };
+}
+
+// const object = counter(10);
+// const up = object.up;
+// const down = object.down;
+// logger(up());     // 11
+// logger(down());   // 10
+// logger(down());   // 9
+// logger(up());     // 10
+
+
+/*
+  *** REVOCABLE ***
+  Make a revocable function that takes a binary function, and returns
+  an object containing an invoke function that can invoke the binary
+  function, and a revoke function that disables the invoke function.
+*/
+
+function revocable(binary) {
+  const BOOOM = 'BOOOOOM';
+  return {
+    invoke(a, b) {
+      let Z = BOOOM
+      return binary !== undefined? binary(a, b): binary;
+    },
+    revoke() {
+      binary = undefined;
+    }
+  };
+}
+
+const rev = revocable(add);
+const addRev = rev.invoke;
+// logger(addRev(3, 4));    // 7
+// logger(addRev(3, 8));    // 11
+// rev.revoke();
+// logger(addRev(5, 7));    // undefined
+
+/*
+  *** M OBJECT ***
+  Write a function m that takes a value and an optional source
+  string and returns them in an object.
+*/
+
+// ES6 object short-hand notation basically '{ val, source }'
+function m(value, source) {
+  const obj = {};
+  obj.value = value;
+  obj.source = source || value;
+  return obj;
+}
+//
+// logger(JSON.stringify(m(1)));
+// // {'value': 1 }
+// logger(JSON.stringify(m(Math.PI, 'pi')));
+// // {'value': 3.14159…, 'source': 'pi'}
+
+/*
+  *** ADDM ***
+  Write a function addm that takes two m objects and returns an
+  m object.
+*/
+
+function addm(m1, m2) {
+  return m(
+    m1.value + m2.value,
+    '('+ m1.source + '+' + m2.source +')'
+  );
+}
+
+// logger(JSON.stringify(addm(m(3), m(4))));
+// {'value': 7, 'source': '(3+4)'}
+// logger(JSON.stringify(addm(m(1), m(Math.PI, 'pi'))));
+// {'value': 4.14159…, 'source': '(1+pi)'}
+
+
+function exp(data) {
+  if (Array.isArray(data)) {
+    return data[0](exp(data[1]), exp(data[2]));
+  }
+  return data;
+}
+
+const arr = [
+  Math.sqrt, [
+    add,
+    [square, 2],
+    [square, 4]
+  ]
+];
+// logger(exp(arr)); // 5
+
+/*
+  *** VECTOR ***
+  Make an array wrapper object with methods get, store, and append,
+  such that an attacker cannot get access to the private array.
+*/
+
+function vector () {
+  const privateArr = [];
+  return {
+    append(id) {
+      privateArr.push(id);
+    },
+    store(idx, id) {
+      privateArr[idx] = id;
+    },
+    get(id) {
+      return privateArr[id];
+    }
+  };
+}
+
+/*
+  TODO: XSS Attack example
+  var stash;
+  const myvector = vector();
+  myvector.store('push', function() {
+    stash = this;
+  });
+  myvector.append();
+  myvector.append(12);
+*/
+
+function pubsub () {
+  const subscribers = [];
+  return {
+    subscribe(func) {
+      subscribers.push(func);
+    },
+    publish(publication) {
+      for (var i = 0; i < subscribers.length; i++) {
+        subscribers[i](publication);
+      }
+    }
+  };
+}
+
+// var stash;
+// const myvector = vector();
+//
+var haha = [];
+mypubsub = pubsub();
+mypubsub.subscribe(log);
+mypubsub.subscribe(function() {
+  haha = this;
+  console.log('haha', haha)
+});
+
+mypubsub.publish('sevda');
+mypubsub.subscribe(counter);
+mypubsub.publish('SMA');
