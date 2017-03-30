@@ -1,13 +1,13 @@
+function Node(val=null) {
+  const node = {};
+  node.val = val;
+  node.right = null;
+  node.left = null;
+  return node;
+}
+
 const BST = function () {
   const root = Node();
-
-  function Node(val=null) {
-    const node = {};
-    node.val = val;
-    node.right = null;
-    node.left = null;
-    return node;
-  }
 
   function insert(val) {
     if (!root.val) {
