@@ -10,12 +10,14 @@ const BST = function (val) {
     return node;
   }
 
+  bst.root = root;
+
   bst.insert = function (val) {
     return (function put(node, value) {
       if (node === null) {
-        return new Node(value);
+        node = Node(value);
       }
-      if (value <= node.val) {
+      if (value < node.val) {
         node.left = put(node.left, value);
       } else if (value > node.val) {
         node.right = put(node.right, value);
@@ -24,8 +26,46 @@ const BST = function (val) {
     }(root, val));
   };
 
-  bst.delete = function (val) {
-    
+  bst.delete = function (val, node=root) {
+    function find(node, parent) {
+      if (node === null) {
+        return false;
+      }
+      if (node.val === val) {
+        return [node, parent];
+      }
+      return val < node.val? find(node.left, node): find(node.right, node);
+    }
+    const [target, parent] = find(node, null);
+
+    if (!target) {
+      return false;
+    }
+
+    const side = target.val < parent.val? 'left': 'right';
+    let childrenCount = 0;
+    if (target.left && target.right) {
+      childrenCount = 2;
+    } else if (target.left || target.right) {
+      childrenCount = 1;
+    }
+
+    switch (childrenCount) {
+      case 0:
+        parent[side] = null;
+        break;
+      case 1:
+        parent[side] = target.left || target.right;
+        break;
+      case 2:
+        const minRight = Math.min.apply(null, bst.inOrder(target.right));
+        target.val = minRight;
+        bst.delete(minRight, target.right);
+        break;
+      default:
+        return false;
+    }
+    return false;
   };
 
   bst.search = function (val) {
@@ -36,14 +76,14 @@ const BST = function (val) {
       if (node.val === val) {
         return node;
       }
-      return val <= node.val? find(node.left): find(node.right);
+      return val < node.val? find(node.left): find(node.right);
     }
     return find(root);
   };
 
 
   // (a) In order (Left, Root, Right)
-  bst.inOrder = function () {
+  bst.inOrder = function (node=root) {
     const array = [];
     function inOrder(node) {
       if (node !== null) {
@@ -54,11 +94,12 @@ const BST = function (val) {
       }
       return undefined;
     }
-    return inOrder(root, array);
+    inOrder(node);
+    return array;
   };
 
   // (b) Preorder (Root, Left, Right)
-  bst.preOrder = function () {
+  bst.preOrder = function (node=root) {
     const array = [];
     function preOrder(node) {
       if (node !== null) {
@@ -69,10 +110,12 @@ const BST = function (val) {
       }
       return undefined;
     }
-    return preOrder(root);
+    preOrder(node);
+    return array;
   };
+
   // (c) Postorder (Left, Right, Root)
-  bst.postOrder = function () {
+  bst.postOrder = function (node=root) {
     const array = [];
     function postOrder(node) {
       if (node !== null) {
@@ -83,11 +126,13 @@ const BST = function (val) {
       }
       return undefined;
     }
-    return postOrder(root);
+    postOrder(node);
+    return array;
   };
 
   return bst;
 };
+
 
 const bst = BST(7);
 bst.insert(4);
@@ -103,6 +148,4 @@ bst.insert(11);
 bst.insert(15);
 bst.insert(20);
 
-console.log('Pre order', bst.inOrder());
-console.log('In order', bst.preOrder());
-console.log('Post order', bst.postOrder());
+bst.delete(12);
