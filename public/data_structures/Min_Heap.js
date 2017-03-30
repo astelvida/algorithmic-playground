@@ -33,7 +33,7 @@ const MinHeap = function (value) {
     sinkDown(c);
   }
 
-  // PUBLIC API
+  // PUBLIC METHODS
   function remove() {
     const first = content.pop();
     content[1] = first;

@@ -13,7 +13,7 @@
     "space-infix-ops": 0,
     "no-unused-vars": [1, {"vars": "local", "args": "none"}],
     "no-use-before-define": [0, { "functions": "true", "classes": "true" }],
-    "no-multiple-empty-lines": [1, { "max": 5, "maxBOF": 1 }],
+    "no-multiple-empty-lines": [1, { "max": 15, "maxBOF": 1 }],
     "arrow-parens": [2, "always"],
     "arrow-body-style": [1, "as-needed"],
     "no-trailing-spaces": [1, { "skipBlankLines": true }],

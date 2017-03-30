@@ -165,22 +165,22 @@ const BST = function () {
 };
 
 
-const bst = BST();
-bst.insert(7);
-bst.insert(4);
-bst.insert(12);
-bst.insert(2);
-bst.insert(6);
-bst.insert(9);
-bst.insert(19);
-bst.insert(3);
-bst.insert(5);
-bst.insert(8);
-bst.insert(11);
-bst.insert(15);
-bst.insert(20);
-
-
-console.log('root',bst)
-bst.remove(100);
-bst.remove(12);
+// const bst = BST();
+// bst.insert(7);
+// bst.insert(4);
+// bst.insert(12);
+// bst.insert(2);
+// bst.insert(6);
+// bst.insert(9);
+// bst.insert(19);
+// bst.insert(3);
+// bst.insert(5);
+// bst.insert(8);
+// bst.insert(11);
+// bst.insert(15);
+// bst.insert(20);
+//
+//
+// console.log('root',bst)
+// bst.remove(100);
+// bst.remove(12);

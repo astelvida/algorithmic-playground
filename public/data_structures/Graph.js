@@ -6,6 +6,18 @@ const Graph = function () {
   this.nodes = {};
 };
 
+Graph.prototype.V = function (key) {
+  return Object.keys(this.nodes[key]);
+};
+
+Graph.prototype.E = function (key) {
+  return Object.keys(this.nodes[key].edges);
+};
+
+Graph.prototype.peek = function () {
+  return this.nodes;
+};
+
 // Add a node to the graph, passing in the node's value.
 Graph.prototype.addNode = function (node) {
   this.nodes[node] = this.nodes[node] || { edges: {} };
@@ -19,7 +31,6 @@ Graph.prototype.contains = function (node) {
 
 // Removes a node from the graph.
 Graph.prototype.removeNode = function (node) {
-
   if (this.contains(node)) {
     // Removes edges between node to be deleted and all other
     // connected nodes.
@@ -33,7 +44,6 @@ Graph.prototype.removeNode = function (node) {
 // Returns a boolean indicating whether two specified nodes are connected.
 // Pass in the values contained in each of the two nodes.
 Graph.prototype.hasEdge = function (fromNode, toNode) {
-
   if (!this.contains(fromNode)) {
     return false;
   }
@@ -42,11 +52,9 @@ Graph.prototype.hasEdge = function (fromNode, toNode) {
 
 // Connects two nodes in a graph by adding an edge between them.
 Graph.prototype.addEdge = function (fromNode, toNode) {
-
   if (!this.contains(fromNode) || !this.contains(toNode)) {
     return;
   }
-
   // Add an edge to each node pointing to the other
   this.nodes[fromNode].edges[toNode] = toNode;
   this.nodes[toNode].edges[fromNode] = fromNode;
@@ -54,11 +62,9 @@ Graph.prototype.addEdge = function (fromNode, toNode) {
 
 // Remove an edge between any two specified (by value) nodes.
 Graph.prototype.removeEdge = function (fromNode, toNode) {
-
   if (!this.contains(fromNode) || !this.contains(toNode)) {
     return;
   }
-
   // Remove edges from each node's edge list
   delete this.nodes[fromNode].edges[toNode];
   delete this.nodes[toNode].edges[fromNode];
@@ -66,11 +72,13 @@ Graph.prototype.removeEdge = function (fromNode, toNode) {
 
 // Pass in a callback which will be executed on each node of the graph.
 Graph.prototype.forEachNode = function (cb) {
-
   for (const node in this.nodes) {
     cb(node);
   }
 };
+
+
+
 
 // Implementation #2:
 // Use an Adjacency Matrix to describe relationships
@@ -129,3 +137,5 @@ GraphAM.prototype.forEachNode = function (cb) {
 //////////////////////////////////////////////////////////////////
 // uncomment this line to use the AM version of Graph
 // Graph = GraphAM;
+
+// module.exports = Graph;
