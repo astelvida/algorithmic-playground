@@ -1,6 +1,5 @@
 const BST = function (val) {
   const root = Node(val);
-  const bst = {};
 
   function Node(val) {
     const node = {};
@@ -10,9 +9,7 @@ const BST = function (val) {
     return node;
   }
 
-  bst.root = root;
-
-  bst.insert = function (val) {
+  function insert(val) {
     return (function put(node, value) {
       if (node === null) {
         node = Node(value);
@@ -24,9 +21,9 @@ const BST = function (val) {
       }
       return node;
     }(root, val));
-  };
+  }
 
-  bst.delete = function (val, node=root) {
+  function remove(val, node=root) {
     function find(node, parent) {
       if (node === null) {
         return false;
@@ -49,7 +46,13 @@ const BST = function (val) {
     } else if (target.left || target.right) {
       childrenCount = 1;
     }
-
+    /*
+      If 1 child, just replace node to be removed with its child,
+      If 2 children...
+        1. find the min of the right subtree
+        2. replace the value of targeted node with the min
+        3. Delete duplicate from right side recusively until we hit case 0;
+    */
     switch (childrenCount) {
       case 0:
         parent[side] = null;
@@ -58,17 +61,17 @@ const BST = function (val) {
         parent[side] = target.left || target.right;
         break;
       case 2:
-        const minRight = Math.min.apply(null, bst.inOrder(target.right));
+        const minRight = Math.min.apply(null, inOrder(target.right));
         target.val = minRight;
-        bst.delete(minRight, target.right);
+        remove(minRight, target.right);
         break;
       default:
         return false;
     }
     return false;
-  };
+  }
 
-  bst.search = function (val) {
+  function search(val) {
     function find(node) {
       if (node === null) {
         return false;
@@ -79,11 +82,11 @@ const BST = function (val) {
       return val < node.val? find(node.left): find(node.right);
     }
     return find(root);
-  };
+  }
 
 
   // (a) In order (Left, Root, Right)
-  bst.inOrder = function (node=root) {
+  function inOrder(node=root) {
     const array = [];
     function inOrder(node) {
       if (node !== null) {
@@ -96,10 +99,10 @@ const BST = function (val) {
     }
     inOrder(node);
     return array;
-  };
+  }
 
   // (b) Preorder (Root, Left, Right)
-  bst.preOrder = function (node=root) {
+  function preOrder(node=root) {
     const array = [];
     function preOrder(node) {
       if (node !== null) {
@@ -112,10 +115,10 @@ const BST = function (val) {
     }
     preOrder(node);
     return array;
-  };
+  }
 
   // (c) Postorder (Left, Right, Root)
-  bst.postOrder = function (node=root) {
+  function postOrder(node=root) {
     const array = [];
     function postOrder(node) {
       if (node !== null) {
@@ -128,9 +131,17 @@ const BST = function (val) {
     }
     postOrder(node);
     return array;
-  };
+  }
 
-  return bst;
+  return {
+    insert,
+    search,
+    remove,
+    preOrder,
+    postOrder,
+    inOrder,
+    root,
+  };
 };
 
 
@@ -148,4 +159,4 @@ bst.insert(11);
 bst.insert(15);
 bst.insert(20);
 
-bst.delete(12);
+bst.remove(12);
