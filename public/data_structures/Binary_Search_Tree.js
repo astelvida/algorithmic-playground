@@ -43,6 +43,13 @@ const BST = function (val) {
     return min(node.left);
   }
 
+  function max(node=root) {
+    if (node.right === null) {
+      return node.val;
+    }
+    return max(node.right);
+  }
+
 
   function remove(val, node=root) {
     function find(node, parent) {
@@ -149,6 +156,7 @@ const BST = function (val) {
     inOrder,
     root,
     min,
+    max,
   };
 };
 
@@ -166,7 +174,7 @@ bst.insert(8);
 bst.insert(11);
 bst.insert(15);
 bst.insert(20);
-bst.remove(100);
-console.log('bst', bst.min())
+// bst.remove(100);
+console.log('max', bst.max())
 
 // bst.remove(12);
