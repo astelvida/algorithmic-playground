@@ -23,10 +23,31 @@ const BST = function (val) {
     }(root, val));
   }
 
+  function search(val) {
+    function find(node) {
+      if (node === null) {
+        return false;
+      }
+      if (node.val === val) {
+        return node;
+      }
+      return val < node.val? find(node.left): find(node.right);
+    }
+    return find(root);
+  }
+
+  function min(node=root) {
+    if (node.left === null) {
+      return node.val;
+    }
+    return min(node.left);
+  }
+
+
   function remove(val, node=root) {
     function find(node, parent) {
       if (node === null) {
-        return false;
+        return [false, false];
       }
       if (node.val === val) {
         return [node, parent];
@@ -70,20 +91,6 @@ const BST = function (val) {
     }
     return false;
   }
-
-  function search(val) {
-    function find(node) {
-      if (node === null) {
-        return false;
-      }
-      if (node.val === val) {
-        return node;
-      }
-      return val < node.val? find(node.left): find(node.right);
-    }
-    return find(root);
-  }
-
 
   // (a) In order (Left, Root, Right)
   function inOrder(node=root) {
@@ -141,6 +148,7 @@ const BST = function (val) {
     postOrder,
     inOrder,
     root,
+    min,
   };
 };
 
@@ -158,5 +166,7 @@ bst.insert(8);
 bst.insert(11);
 bst.insert(15);
 bst.insert(20);
+bst.remove(100);
+console.log('bst', bst.min())
 
-bst.remove(12);
+// bst.remove(12);
