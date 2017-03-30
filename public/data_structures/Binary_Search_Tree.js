@@ -1,7 +1,7 @@
-const BST = function (val) {
-  const root = Node(val);
+const BST = function () {
+  const root = Node();
 
-  function Node(val) {
+  function Node(val=null) {
     const node = {};
     node.val = val;
     node.right = null;
@@ -10,6 +10,10 @@ const BST = function (val) {
   }
 
   function insert(val) {
+    if (!root.val) {
+      root.val = val;
+      return;
+    }
     return (function put(node, value) {
       if (node === null) {
         node = Node(value);
@@ -161,7 +165,8 @@ const BST = function (val) {
 };
 
 
-const bst = BST(7);
+const bst = BST();
+bst.insert(7);
 bst.insert(4);
 bst.insert(12);
 bst.insert(2);
@@ -174,7 +179,8 @@ bst.insert(8);
 bst.insert(11);
 bst.insert(15);
 bst.insert(20);
-// bst.remove(100);
-console.log('max', bst.max())
 
-// bst.remove(12);
+
+console.log('root',bst)
+bst.remove(100);
+bst.remove(12);

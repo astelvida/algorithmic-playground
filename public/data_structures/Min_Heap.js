@@ -5,7 +5,7 @@ const MinHeap = function (value) {
   function bubbleUp(i) {
     const p = Math.floor(i/2);    // parent index
     if (i === 1 || content[i] > content[p]) {
-      return true;
+      return;
     }
     // swap parent and child
     const temp = content[i];
@@ -33,6 +33,7 @@ const MinHeap = function (value) {
     sinkDown(c);
   }
 
+  // PUBLIC API
   function remove() {
     const first = content.pop();
     content[1] = first;
@@ -56,7 +57,6 @@ const MinHeap = function (value) {
     insert,
     remove,
     getMin,
-    content,
     size,
   };
 };
