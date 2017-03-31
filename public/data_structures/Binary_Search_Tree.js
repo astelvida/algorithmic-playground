@@ -1,30 +1,30 @@
-function Node(val=null) {
+function Node(val=null, parent=null) {
   const node = {};
   node.val = val;
   node.right = null;
   node.left = null;
+  node.parent = parent;
   return node;
 }
 
-const BST = function () {
+function BST() {
   const root = Node();
-
   function insert(val) {
     if (!root.val) {
       root.val = val;
       return;
     }
-    return (function put(node, value) {
+    return (function put(node, value, parent) {
       if (node === null) {
-        node = Node(value);
+        node = Node(value, parent);
       }
       if (value < node.val) {
-        node.left = put(node.left, value);
+        node.left = put(node.left, value, node);
       } else if (value > node.val) {
-        node.right = put(node.right, value);
+        node.right = put(node.right, value, node);
       }
       return node;
-    }(root, val));
+    }(root, val, null));
   }
 
   function search(val) {
@@ -106,16 +106,20 @@ const BST = function () {
   // (a) In order (Left, Root, Right)
   function inOrder(node=root) {
     const array = [];
-    function inOrder(node) {
+    function inOrder(node, depth) {
       if (node !== null) {
-        inOrder(node.left);
+
+        console.log(`node0:%c ${node.val}`, 'color: blue', `depth: ${depth}`);
+        inOrder(node.left, depth + 1);
         array.push(node.val);
-        inOrder(node.right);
-        return array;
+
+        inOrder(node.right, depth + 1);
+        console.log(`node2:%c ${node.val}`, 'color: green', `depth: ${depth}`);
+
       }
-      return undefined;
+      return array;
     }
-    inOrder(node);
+    inOrder(node, 0);
     return array;
   }
 
@@ -135,7 +139,6 @@ const BST = function () {
     return array;
   }
 
-  // (c) Postorder (Left, Right, Root)
   function postOrder(node=root) {
     const array = [];
     function postOrder(node) {
@@ -150,7 +153,7 @@ const BST = function () {
     postOrder(node);
     return array;
   }
-
+  
   return {
     insert,
     search,
@@ -162,25 +165,19 @@ const BST = function () {
     min,
     max,
   };
-};
+}
 
 
-// const bst = BST();
-// bst.insert(7);
-// bst.insert(4);
-// bst.insert(12);
-// bst.insert(2);
-// bst.insert(6);
-// bst.insert(9);
-// bst.insert(19);
-// bst.insert(3);
-// bst.insert(5);
-// bst.insert(8);
-// bst.insert(11);
-// bst.insert(15);
-// bst.insert(20);
+// const bst1 = BST();
+// const bst2 = BST();
 //
+// const p1 = [10, 12, 11, 23, 2, 5, 7];
+// const p2 = [11, 13, 23, 2, 5, 7, 37, 29, 31, 17, 19, 3];
 //
-// console.log('root',bst)
-// bst.remove(100);
-// bst.remove(12);
+// p1.forEach((el) => bst1.insert(el));
+// p2.forEach((el) => bst2.insert(el));
+//
+// const root1 = JSON.stringify(bst1.root, null, '\t');
+// const root2 = JSON.stringify(bst2.root, null, '\t');
+//
+// console.log(`successor1: ${bst1.successor(13)}`);

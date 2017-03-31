@@ -60,7 +60,7 @@ function findDepth(cache, node, depth) {
 
 
 
-// const tree = new BinaryTree();
+// const tree = new Tree();
 // tree.insert(19);
 // tree.insert(3);
 // tree.insert(15);

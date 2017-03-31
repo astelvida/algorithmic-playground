@@ -49,8 +49,8 @@ function Node(val=null) {
 
 
 const p1 = [7, 3, 11, 13, 2];
-const bst = BST();
-p1.forEach((el) => bst.insert(el));
+const bst2 = BST();
+p1.forEach((el) => bst2.insert(el));
 // console.log('should return true', validateBST(bst.root));
 
 

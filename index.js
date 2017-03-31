@@ -1,5 +1,5 @@
 const Graph = require('./public/data_structures/Graph.js');
-const BinaryTree = require('./public/data_structures/Binary_Tree.js');
+const Tree = require('./public/data_structures/Binary_Tree.js');
 const Linked_List = require('./public/data_structures/Linked_List.js');
 
 const log = console.log;
