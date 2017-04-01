@@ -6,43 +6,45 @@
 */
 
 const Graph = function (V = 0) {
-  this.vertices = {};
+  this.nodes = {};
   this.edges = {};
   this.V = V;
   this.E = 0;
 };
 
-Graph.prototype.addVertices = function (arr=[]) {
-  arr.forEach(function (v) {
-    this.vertices[v] = v;
-  });
-  this.V += arr.length;
-};
+function Node() {
+  this.edges = [];
+  this.dependencies = 0;
+  this.inc = function () {
+    this.dependencies++;
+  };
+  this.sub = function () {
+    this.dependencies--;
+  };
+  this.bool = false;
+}
 
-Graph.prototype.addVertex = function (v) {
-  this.vertices[v] = this.vertices[v] || v;
+Graph.prototype.addNode = function (node) {
+  this.nodes[node] = new Node();
   this.V++;
+  return this.nodes[node];
 };
 
-Graph.prototype.addEdge = function (fromV, toV) {
-  !this.vertices[fromV]? this.addVertex(fromV): null;
-  !this.vertices[toV]? this.addVertex(toV): null;
-  this.edges[fromV] = this.edges[fromV] || {};
-  if (toV in this.edges[fromV]) {
-    console.log(
-      new Error(`${toV} is already listed as a dependency of ${fromV}!`)
-    );
-    return;
-  }
-  this.edges[fromV][toV] = toV;
+Graph.prototype.addEdge = function (fromV, toU) {
+  this.nodes[fromV].edges.push(toU);
+  this.nodes[toU].dependencies++;
   this.E++;
 };
 
 Graph.prototype.adj = function (v) {
-  return this.edges[v]? Object.keys(this.edges[v]) : null;
+  return this.nodes[v];
 };
 
-// # of vertices in the graph
+Graph.prototype.dependenciesCount = function (v) {
+  return this.nodes[v].dependencies;
+};
+
+// # of nodes in the graph
 Graph.prototype.V = function () {
   return this.V;
 };
@@ -55,23 +57,78 @@ Graph.prototype.E = function () {
 // NOTE: not intended to be public method - useful for tests
 Graph.prototype.peek = function () {
   return {
-    vertices: this.vertices,
+    nodes: this.nodes,
     edges: this.edges,
     V: this.V,
     E: this.E
   };
 };
 
-const graph = new Graph();
-graph.addVertex('e');
-graph.addEdge('a', 'd');
-graph.addEdge('f', 'b');
-graph.addEdge('d', 'c');
-graph.addEdge('b', 'd');
-graph.addEdge('f', 'a');
+function buildOrder(projects, dependencies) {
+  const graph = buildGraph(projects, dependencies);
+  return orderProjects(graph.nodes);
+}
+//
+function buildGraph(projects, dependencies) {
+  const graph = new Graph();
+  projects.forEach((project) => graph.addNode(project));
+  dependencies.forEach((tuple) => graph.addEdge(tuple[0], tuple[1]));
+  return graph;
+}
 
-console.log('EDGES', graph.edges);
-console.log('ADJ', graph.adj('f'));
-console.log('VERTICES', graph.vertices);
-console.log('#E', graph.E);
-console.log('#V', graph.V);
+
+function orderProjects(projects) {
+  const order = [];
+  const projectList = Object.keys(projects);
+  const set = projectList.filter(function (name) {
+    return projects[name].dependencies === 0;
+  });
+
+  let count = projectList.length + 1;
+  while (set.length !== 0) {
+    if (!count) {
+      return null;
+    }
+
+    const curr = set.pop();
+    order.push(curr);
+
+    projects[curr].edges.forEach(function (edge) {
+      projects[edge].dependencies--;
+      if (!projects[edge].dependencies) {
+        set.push(edge);
+      }
+    });
+
+    count--;
+  }
+
+  console.log('count:', count);
+  console.log('set:', set);
+  console.log('order:', order);
+
+  console.log('nodes:', JSON.stringify(projects, null, '\t'));
+  return order;
+}
+
+const projects = ['a', 'b', 'c', 'd', 'e', 'f'];
+const dependencies = [['a', 'd'], ['f', 'b'], ['d', 'c'],
+                      ['b', 'd'], ['f', 'a']];
+
+console.log('findOrder', buildOrder(projects, dependencies));
+//
+// // const graph = new Graph();
+// // graph.addNode('e');
+// // graph.addEdge('a', 'd');
+// // graph.addEdge('f', 'b');
+// // graph.addEdge('d', 'c');
+// // graph.addEdge('b', 'd');
+// // graph.addEdge('f', 'a');
+// //
+// // console.log('Result',buildOrder(graph));
+// //
+// // console.log('EDGES', graph.edges);
+// // console.log('ADJ', graph.adj('f'));
+// // console.log('VERTICES', graph.nodes);
+// // console.log('#E', graph.E);
+// // console.log('#V', graph.V);
