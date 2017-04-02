@@ -83,31 +83,21 @@ function orderProjects(projects) {
   const set = projectList.filter(function (name) {
     return projects[name].dependencies === 0;
   });
-
-  let count = projectList.length + 1;
+  // console.log('nodes:', JSON.stringify(projects, null, '\t'));
   while (set.length !== 0) {
-    if (!count) {
-      return null;
-    }
-
     const curr = set.pop();
     order.push(curr);
-
     projects[curr].edges.forEach(function (edge) {
       projects[edge].dependencies--;
       if (!projects[edge].dependencies) {
         set.push(edge);
       }
     });
-
-    count--;
+  }
+  if (order.length !== projectList.length) {
+    return null;
   }
 
-  console.log('count:', count);
-  console.log('set:', set);
-  console.log('order:', order);
-
-  console.log('nodes:', JSON.stringify(projects, null, '\t'));
   return order;
 }
 
