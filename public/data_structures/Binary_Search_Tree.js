@@ -1,9 +1,8 @@
-function Node(val=null, parent=null) {
+function Node(val=null) {
   const node = {};
   node.val = val;
   node.right = null;
   node.left = null;
-  node.parent = parent;
   return node;
 }
 
@@ -153,7 +152,7 @@ function BST() {
     postOrder(node);
     return array;
   }
-  
+
   return {
     insert,
     search,

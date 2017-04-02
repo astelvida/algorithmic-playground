@@ -97,4 +97,4 @@ const n1 = tree.left.right; // e
 const n2 = tree.left.left.right; // t
   // console.log('nodes:', JSON.stringify(tree, null, '\t'));
 
-  console.log('should return "a"', FCA2(tree, n1, n2));
+console.log('should return "a"', FCA2(tree, n1, n2));

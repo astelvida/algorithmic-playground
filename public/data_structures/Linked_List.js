@@ -5,7 +5,7 @@ class List {
   }
 
   // can receive either a primitive or a node;
-  appendToTail(value) {
+  add(value) {
     const node = new Node(value);
     if (!this.head) {
       this.head = node;
