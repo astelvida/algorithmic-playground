@@ -22,6 +22,32 @@ class BinarySearchTree {
     }
     node[branch] = new Node(val);
   }
+
+  find() {
+    const rand = Math.random();
+    const branch = rand < 0.5? 'left': 'right';
+    const otherBranch = rand >= 0.5? 'right': 'left';
+
+    function getRandom(node) {
+      const size = node[branch]? node[branch].size : 0;
+      let index = Math.ceil(Math.random() * size);
+
+      if (index < size) {
+        return getRandom(node[branch]);
+      } else if (index === size) {
+        return node[branch];
+      } else {
+        return getRandom(node[otherBranch]);
+      }
+    }
+
+    const result = getRandom(this.root);
+    if (result) {
+      return result;
+    } else {
+      return this.find();
+    }
+  }
 };
 
 const tree = new BinarySearchTree();
@@ -35,3 +61,5 @@ tree.insert(18);
 
 
 console.log('TREE',tree.root)
+
+console.log(tree.find());
