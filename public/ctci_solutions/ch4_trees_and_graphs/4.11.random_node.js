@@ -3,37 +3,24 @@ class Node {
     this.left = null;
     this.right = null;
     this.val = val;
+    this.size = 1;
   }
 }
 
 class BinarySearchTree {
   constructor() {
-    this.root = new Node();
+    this.root = null;
   }
 
   insert(val) {
-    if (!this.root.val) {
-      this.root.val = val;
-      return;
+    let branch = 'root';
+    let node = this;
+    while (node[branch]) {
+      node = node[branch];
+      node.size++;
+      branch = val < node.val? 'left': 'right';
     }
-    let node = this.root;
-    while (node !== null) {
-      if (val < node.val) {
-        if (node.left === null) {
-          node.left = new Node(val);
-          break;
-        } else {
-          node = node.left;
-        }
-      } else if (val > node.val) {
-        if (node.right === null) {
-          node.right = new Node(val);
-          break;
-        } else {
-          node = node.right;
-        }
-      }
-    }
+    node[branch] = new Node(val);
   }
 };
 
@@ -41,6 +28,10 @@ const tree = new BinarySearchTree();
 tree.insert(10);
 tree.insert(12);
 tree.insert(9);
+tree.insert(1);
+tree.insert(20);
+tree.insert(18);
 
 
-console.log(tree.root)
+
+console.log('TREE',tree.root)
