@@ -59,21 +59,25 @@ class CallCenter {
     }
   }
 
+  findAvailable(division) {
+    return this[division].find((employee) => employee.availability === true);
+  }
+
   dispatchCall() {
     // check for respondents, if none available
-    const freeRespondent = this.respondents.find((employee) => employee.availability === true);
+    const freeRespondent = this.findAvailable('respondents');
     if (freeRespondent) {
       freeRespondent.answerCall();
     } else {
-      const freeManager = this.managers.find((employee) => employee.availability === true);
+      const freeManager = this.findAvailable('managers');
       if (freeManager) {
         freeManager.answerCall();
       } else {
-        const freeDirector = this.directors.find((employee) => employee.availability === true);
+        const freeDirector = this.findAvailable('directors')
         if (freeDirector) {
           freeDirector.answerCall();
         } else {
-          console.log('Sorry, please wait until one of our operators is available!');
+          console.log('All our operators are currently busy!Please stay on the line');
         }
       }
     }
